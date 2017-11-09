@@ -14,7 +14,7 @@ app.use(cors());
 //Adding middle ware
 app.use(bodyparser.json());
 
-mongoose.connect('mongodb://localhost:27017/contactlist/contacts');
+mongoose.connect('mongodb://localhost:27017/products');
 
 mongoose.connection.on('connected',()=>{
     console.log("Connected to MongoDB database ");

@@ -1,30 +1,33 @@
 const express = require('express');
-const Contact = require('../model/contacts')
+const Product = require('../model/product')
 const router = express.Router();
 
-router.get('/contacts',(req,res,next)=>{
-    Contact.find((err,contacts)=>{
-        res.json(contacts);
+router.get('/products',(req,res,next)=>{
+    Product.find((err,products)=>{
+        res.json(products);
     })
 }) 
 
-router.get('/contacts/:id',(req,res,next)=>{
-    Contact.findOne({_id:req.params.id},(err,contacts)=>{
-        res.json(contacts);
+router.get('/products/:id',(req,res,next)=>{
+    Product.findOne({id:req.params.id},(err,products)=>{
+        res.json(products);
     })
 }) 
-router.put('/contact/save',(req,res,next)=>{
-    var newContact = new Contact({
-           first_name:req.body.first_name, 
-           last_name:req.body.last_name,
-           phone:req.body.phone
+router.put('/product/save',(req,res,next)=>{
+    var newContact = new Product({
+             id:req.body.id, 
+             name:req.body.name,
+             current_price:{
+                value : req.body.current_price.value,
+                currency_code: req.body.current_price.currency_code 
+             }
     })
-    newContact.save((err,contact) => {
+    newContact.save((err,product) => {
         if(err){
-            res.json({msg:'Unable to add new contact'});
+            res.json({msg:'Unable to add new product'});
         }
         else{
-            res.json({msg:'Contact added sucessfully'}); 
+            res.json({msg:'Product added sucessfully'}); 
         }
     })
 }) 
