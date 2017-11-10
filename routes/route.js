@@ -28,7 +28,8 @@ router.get('/products/:id',(req,res,next)=>{
     })
 }) 
 
-router.put('/product/save',(req,res,next)=>{
+router.put('/product/:id',(req,res,next)=>{
+    
     var newContact = new Product({
              id:req.body.id, 
              name:req.body.name,
@@ -37,14 +38,18 @@ router.put('/product/save',(req,res,next)=>{
                 currency_code: req.body.current_price.currency_code 
              }
     })
-    newContact.save((err,product) => {
-        if(err){
-            res.json({msg:'Unable to add new product'});
+    Product.updateOne({
+        "id": req.body.id
+    }, {
+        $set: {
+            current_price:{
+            value : 25.5,
+            currency_code: 'INR'
+         }
         }
-        else{
-            res.json({msg:'Product added sucessfully'}); 
-        }
-    })
+    }, function(err, results) {
+        res.json('Update Sucessful');
+    });
 }) 
 
 module.exports = router;
