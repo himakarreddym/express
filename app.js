@@ -24,11 +24,6 @@ mongoose.connection.on('connected',()=>{
 //routes
 app.use('/api',route);
 
-//Routing
-app.get('/',(req,res)=>{
-    res.send('Hello world')
-})
-
 //Defining the port
 app.listen(port,() =>{
 console.log('server started on port'+port);

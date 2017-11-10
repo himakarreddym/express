@@ -1,4 +1,5 @@
 const express = require('express');
+const Name = require('../model/name')
 const Product = require('../model/product')
 const router = express.Router();
 
@@ -8,11 +9,25 @@ router.get('/products',(req,res,next)=>{
     })
 }) 
 
+router.get('/names',(req,res,next)=>{
+    Name.find((err,names)=>{
+        res.json(names);
+    })
+}) 
+
 router.get('/products/:id',(req,res,next)=>{
+    //call a funbction
+    var returnName = new Name();
+    Name.findOne({id:req.params.id}, (err,names)=> { 
+        returnName =  names; 
+    });
     Product.findOne({id:req.params.id},(err,products)=>{
+        console.log(products);
+        products.name = returnName.name;
         res.json(products);
     })
 }) 
+
 router.put('/product/save',(req,res,next)=>{
     var newContact = new Product({
              id:req.body.id, 
